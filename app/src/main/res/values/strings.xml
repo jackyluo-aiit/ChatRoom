@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HelloWorld</string>
+    <string name="action_settings">Settings</string>
+    <string name="developerInfo">LUO,Xuqi; 1155129475</string>
+    <string name="chatroomButton">Default ChatRoom</string>
+    <string name="inputText">Enter</string>
+    <string name="sendBtn">Send</string>
+</resources>

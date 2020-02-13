@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingVertical="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/message_body_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:background="@drawable/message_send"
+        android:elevation="2dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:text="Placeholder message"
+        android:textColor="#fff"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/send_message_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/message_body_send"
+        android:layout_marginBottom="0dp"
+        android:layout_toStartOf="@+id/message_body_send"
+        android:text="11:40"
+        android:textSize="10sp"
+        android:textColor="#000"/>
+
+
+</RelativeLayout>
