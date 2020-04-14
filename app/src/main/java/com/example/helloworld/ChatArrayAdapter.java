@@ -17,6 +17,7 @@ public class ChatArrayAdapter extends ArrayAdapter<Msg> {
     private List<Msg> chatMessageList = new ArrayList<Msg>();
     private Context context;
     private TextView chatTime;
+    private TextView user;
 
     public ChatArrayAdapter(Context context, int textViewId){
         super(context, textViewId);
@@ -25,12 +26,19 @@ public class ChatArrayAdapter extends ArrayAdapter<Msg> {
 
     @Override
     public void add(@Nullable Msg object) {
-        super.add(object);
         chatMessageList.add(object);
+    }
+
+    public void addHistory(Msg object){
+        chatMessageList.add(0, object);
     }
 
     public int getCount(){
         return chatMessageList.size();
+    }
+
+    public void deleteItem(){
+        chatMessageList.clear();
     }
 
     public Msg getMessage(int id){
@@ -41,11 +49,19 @@ public class ChatArrayAdapter extends ArrayAdapter<Msg> {
         Msg msg = getMessage(position);
         View row = convertView;
         LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        row = inflater.inflate(R.layout.message_send, parent, false);
-        chatText = (TextView) row.findViewById(R.id.message_body_send);
-        chatTime = row.findViewById(R.id.send_message_time);
+        String flag = msg.getFlag();
+        if(flag.equals("send")) {
+            row = inflater.inflate(R.layout.message_send, parent, false);
+        }
+        else{
+            row = inflater.inflate(R.layout.message_received, parent, false);
+        }
+        chatText = (TextView) row.findViewById(R.id.message_body);
+        chatTime = row.findViewById(R.id.message_time);
+        user = row.findViewById(R.id.user);
         chatText.setText(msg.getMessage());
         chatTime.setText(msg.getDate());
+        user.setText(msg.getName());
         return row;
     }
 }
