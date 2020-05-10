@@ -3,7 +3,6 @@ package com.example.helloworld;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,8 +43,8 @@ public class ChatRoomActivity extends AppCompatActivity {
     private Boolean loadMore = false;
     private FetchChats fetchChats;
     private FetchHistorys fetchHistorys;
-    private String baseUrl = "http://192.168.31.26:5000/api/a3/";
-    private String baseWsUrl = "http://192.168.31.26:8001/";
+    private String baseUrl = "http://52.90.218.14/api/a3/";
+    private String baseWsUrl = "http://52.90.218.14:8001/";
     private JSONObject json = new JSONObject();
 
     @Override
@@ -204,13 +203,15 @@ public class ChatRoomActivity extends AppCompatActivity {
                 public void run() {
                     try {
                         JSONObject message = result.getJSONObject("message");
-                        Msg recieve = MessageUtils.transferMsg(message);
+                        Msg recieve = Utils.transferMsg(message);
                         Log.i("log", "Recieve: " + recieve);
                         if (recieve.getFlag().equals("send")) {
                             return;
                         }
                         chatArrayAdapter.add(recieve);
                         chatArrayAdapter.notifyDataSetChanged();
+                        Utils.createNotification(ChatRoomActivity.this, ChatRoomActivity.class, chatRoomName, message.getString("message"),
+                                true, true,true, chatRoomId, chatRoomName);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -235,27 +236,6 @@ public class ChatRoomActivity extends AppCompatActivity {
             socket.off();
         }
     }
-
-    //    public void refresh(final Integer current_page, final Integer flag) {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                OkHttpUtils okHttpUtils = new OkHttpUtils();
-//                HashMap<String, Object> params = new HashMap<>();
-//                params.put("chatroom_id", 2);
-//                params.put("page", current_page);
-//                do {
-//                    result = okHttpUtils.get("http://18.220.14.97/api/a2/get_messages", params);
-//                } while (result.equals("error"));
-//
-//                if (flag == 0) handler.sendMessage(handler.obtainMessage(0, result));
-//                if (flag == 1) handler.sendMessage(handler.obtainMessage(1, result));
-////                }else if(result.equals("error")){
-////                    handler.sendMessage(handler.obtainMessage(404));
-////                }
-//            }
-//        }).start();
-//    }
 
 
     @Override
@@ -329,79 +309,6 @@ public class ChatRoomActivity extends AppCompatActivity {
         }
     }
 
-//    public void receiveMessage(Stack<JSONObject> received, Integer flag) {
-//        if(flag == 0) chatArrayAdapter.deleteItem();
-//        while (!received.isEmpty()) {
-//            JSONObject resultObject = null;
-//            try {
-//                resultObject = received.pop();
-//                String message = resultObject.getString("message");
-//                String name = resultObject.getString("name");
-//                String message_time = resultObject.getString("message_time");
-//                chatArrayAdapter.add(new Msg(message, message_time, name, "received"));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-//    public Stack<JSONObject> parseJson(String content) {
-//        /*
-//        {"data":[{"id":2,"name":"General Chatroom"},{"id":3,"name":"Chatroom 2"},{"id":4,"name":"Catroom 3"}],"status":"OK"}
-//         */
-//        Stack<JSONObject> list = new Stack<>();
-//        if (content != null) {
-//            try {
-//                JSONObject jsonObject = new JSONObject(content);
-//                String resultCode = jsonObject.getString("status");
-//                if (resultCode.equals("OK")) {
-//                    JSONObject data = jsonObject.getJSONObject("data");
-//                    current_page = data.getInt("current_page");
-//                    total_pages = data.getInt("total_pages");
-//                    JSONArray messages = data.getJSONArray("messages");
-//                    int len = messages.length();
-//
-//                    for (int i = 0; i < len; i++) {
-//                        JSONObject resultObject = messages.getJSONObject(i);
-//                        String message = resultObject.getString("message");
-//                        String name = resultObject.getString("name");
-//                        String message_time = resultObject.getString("message_time");
-//                        System.out.println("message: " + message + ", name: " + name + " message_time: " + message_time);
-//                        list.push(resultObject);
-//                    }
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return list;
-//    }
-
-
-//    @SuppressLint("HandlerLeak")
-//    public Handler handler = new Handler() {
-//
-//
-//        @Override
-//        public void handleMessage(Message msg) {
-//            String content;
-//            switch (msg.what) {
-//                case 0:
-//                    content = (String) msg.obj;
-//                    receiveMessage(parseJson(content), 0);
-//                    break;
-//                case 1:
-//                    content = (String) msg.obj;
-//                    receiveMessage(parseJson(content), 1);
-//                    break;
-////                case 404:
-////                    refresh(current_page, 404);
-//            }
-
-
-//        }
-//    };
-
     private class FetchChats extends AsyncTask<Integer, Integer, String> {
         private String url = "get_messages";
 
@@ -426,10 +333,6 @@ public class ChatRoomActivity extends AppCompatActivity {
             return null;
         }
 
-//        @Override
-//        protected void onProgressUpdate(Integer... values) {
-//            Toast.makeText(ChatRoomActivity.this, "Please wait", Toast.LENGTH_SHORT).show();
-//        }
 
         @Override
         protected void onPostExecute(String content) {
@@ -457,7 +360,7 @@ public class ChatRoomActivity extends AppCompatActivity {
             while (!list.isEmpty()) {
                 JSONObject resultObject = null;
                 resultObject = list.pop();
-                chatArrayAdapter.add(MessageUtils.transferMsg(resultObject));
+                chatArrayAdapter.add(Utils.transferMsg(resultObject));
             }
             chatArrayAdapter.notifyDataSetChanged();
             loadMore = true;
@@ -497,7 +400,7 @@ public class ChatRoomActivity extends AppCompatActivity {
 
                         for (int i = 0; i < len; i++) {
                             JSONObject resultObject = messages.getJSONObject(i);
-                            chatArrayAdapter.addHistory(MessageUtils.transferMsg(resultObject));
+                            chatArrayAdapter.addHistory(Utils.transferMsg(resultObject));
                         }
                     }
                 } catch (JSONException e) {

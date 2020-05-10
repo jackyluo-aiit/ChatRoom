@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusableInTouchMode="true" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="@string/Enter_Captcha"
+            android:textColor="@color/black"
+            android:textSize="28sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="160dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="@string/Email_Captcha"
+                android:textColor="@color/black"
+                android:textSize="8sp" />
+
+            <EditText
+                android:id="@+id/edit_captcha"
+                android:layout_width="230dp"
+                android:layout_height="40dp"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <Button
+            android:id="@+id/btn_yes"
+            android:layout_width="98dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/Confirm"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+</LinearLayout>

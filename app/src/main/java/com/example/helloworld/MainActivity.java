@@ -17,6 +17,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.helloworld.UserAccess.LoginActivity;
+import com.example.helloworld.UserAccess.RegisterActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private String result;
     private ListView listView;
     private ChatRoomAdapter chatRoomAdapter;
-    private String baseUrl = "http://192.168.31.26:5000/api/a3/";
+    private String baseUrl = "http://192.168.31.100:5000/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
                     parseJson((String) msg.obj, chatRoomAdapter);
                     listView.setAdapter(chatRoomAdapter);
                     break;
+                case 2:
+                    logout();;
+                    break;
+
             }
 
 
@@ -124,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 OkHttpUtils okHttpUtils = new OkHttpUtils();
                 do {
-                    result = okHttpUtils.get(baseUrl+"get_chatrooms");
+                    result = okHttpUtils.get(baseUrl+"api/a3/get_chatrooms");
                 } while (result.equals("error"));
                 handler.sendMessage(handler.obtainMessage(1, result));
 //                if(!result.equals("error")){
@@ -134,6 +141,25 @@ public class MainActivity extends AppCompatActivity {
 //                }
             }
         }).start();
+    }
+
+    public void onLogout(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpUtils okHttpUtils = new OkHttpUtils();
+                do {
+                    result = okHttpUtils.get(baseUrl+"auth/logout");
+                } while (result.equals("error"));
+                handler.sendMessage(handler.obtainMessage(2, result));
+            }
+        }).start();
+    }
+
+    public void logout(){
+        Utils.clear(MainActivity.this, "login");
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -152,8 +178,9 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         switch (id){
-            case R.id.action_settings:
-                return true;
+            case R.id.logoutBtn:
+                onLogout();
+                return super.onOptionsItemSelected(item);
             case R.id.refreshBtn:
                 refresh();
                 return super.onOptionsItemSelected(item);

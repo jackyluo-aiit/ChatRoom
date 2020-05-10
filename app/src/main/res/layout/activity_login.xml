@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UserAccess.LoginActivity">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="vertical">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="@string/Email"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/edit_email"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:singleLine="true" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="@string/Password"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+            <EditText
+                android:id="@+id/edit_password"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:password="true"
+                android:singleLine="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="@string/Login"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="120dp"
+            android:text="@string/Register"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

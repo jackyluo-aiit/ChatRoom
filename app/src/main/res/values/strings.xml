@@ -14,4 +14,16 @@
     <string name="updated_at">Updated at %1$s ago</string>
     <string name="updated_just_now">Just updated</string>
     <string name="time_error">The time error</string>
+    <string name="Register">Register</string>
+    <string name="Email">Email</string>
+    <string name="Enter_password">Enter password</string>
+    <string name="Confirm_password">Confirm password</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Cancel">Cancel</string>
+    <string name="name">Name</string>
+    <string name="Enter_Captcha">Enter Captcha</string>
+    <string name="Email_Captcha">Email Captcha</string>
+    <string name="Password">Password</string>
+    <string name="Login">Login</string>
+    <string name="logout">Logout</string>
 </resources>

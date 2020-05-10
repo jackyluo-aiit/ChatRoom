@@ -11,15 +11,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -27,7 +32,20 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class OkHttpUtils {
-    private OkHttpClient client =  new OkHttpClient();
+    private static final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
+    private OkHttpClient client =  new OkHttpClient.Builder()
+            .cookieJar(new CookieJar() {
+                @Override
+                public void saveFromResponse(HttpUrl httpUrl, List<Cookie> list) {
+                    cookieStore.put(httpUrl.host(), list);
+                }
+
+                @Override
+                public List<Cookie> loadForRequest(HttpUrl httpUrl) {
+                    List<Cookie> cookies = cookieStore.get(httpUrl.host());
+                    return cookies != null ? cookies : new ArrayList<Cookie>();
+                }
+            }).build();
     private MainActivity mainActivity;
 
     public void asyncGet(String url){
@@ -99,8 +117,9 @@ public class OkHttpUtils {
         }
         Request request = new Request.Builder()
                 .url(builder.build())
-                .method("post", new FormBody.Builder().build())
+                .method("POST", new FormBody.Builder().build())
                 .build();
+        System.out.println(request);
         Response response = null;
         try {
             response = client.newCall(request).execute();
@@ -115,4 +134,20 @@ public class OkHttpUtils {
         return content;
     }
 
+}
+
+class ReceivedCookiesInterceptor implements Interceptor{
+
+    @NotNull
+    @Override
+    public Response intercept(@NotNull Chain chain) throws IOException {
+        Response originalResponse = chain.proceed(chain.request());
+        List<String> cookieList =  originalResponse.headers("Set-Cookie");
+        if(cookieList != null) {
+            for(String s:cookieList) {
+                System.out.println(s);
+            }
+        }
+        return originalResponse;
+    }
 }
